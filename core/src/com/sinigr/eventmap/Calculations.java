@@ -130,7 +130,7 @@ class Calculations {
                 String type = node.type;
                 array[order] = numbs[k];
                 if(type.equals("event")) {
-                    if(node.resultProb == 100) array[order] = 1;
+                    if(node.baseProb == 100) array[order] = 1;
                 }
                 buildChains(array, order+1);
             }
@@ -144,7 +144,7 @@ class Calculations {
 
     private static int getIndex(SimpleNode node) {
         if(node.type.equals("event")) {
-            if(node.resultProb == 100 || node.resultProb == 0) return 1;
+            if(node.baseProb== 100 || node.resultProb == 0) return 1;
             return 2;
         } else if(node.type.equals("or")) {
             if(getInCount(node) == 1) return 3;
@@ -159,8 +159,38 @@ class Calculations {
     private static void buildVariants() {
         for(int i = 0; i< chains.size(); i++) {
             setNodesValues(i);
+            setTempProbabilities(findFirstNode(), 100);
+            for(SimpleNode node: nodes) node.visited = 0;
             buildVariant(findFirstNode(), true);
             variants.add(getVariantArray());
+        }
+    }
+
+    /** Установка вспомогательных значений вероятности */
+    private static void setTempProbabilities(SimpleNode node, double probability) {
+        node.visited++;
+        int ins = getInCount(node);
+        if((ins == 0 || ins == 1) ) {
+            if(node.type.equals("event")|| node.type.equals("and") ) {
+                node.variantProb = node.baseProb * probability / 100D;
+                if(node.out1 != null) setTempProbabilities(node.out1, node.variantProb);
+                if(node.out2 != null) setTempProbabilities(node.out2, node.variantProb);
+            } else if(node.type.equals("or"))  {
+                node.variantProb = node.baseProb * probability / 100D;
+                if(node.out1 != null) setTempProbabilities(node.out1, node.variantProb*((node.value == 0 || node.value == 2) ? 100 : 0));
+                if(node.out2 != null) setTempProbabilities(node.out2, node.variantProb*((node.value == 1 || node.value == 2) ? 100 : 0));
+            } else if(node.type.equals("xor"))  {
+                node.variantProb = node.baseProb * probability / 100D;
+                if(node.out1 != null) setTempProbabilities(node.out1, node.variantProb*((node.value == 0)? 100 : 0));
+                if(node.out2 != null) setTempProbabilities(node.out2, node.variantProb*((node.value == 1)? 100 : 0));
+            }
+        } else {
+            if(node.visited == 1) node.tempProb = probability;
+            else {
+                node.variantProb = node.tempProb*(100-probability) /100D + probability*(100-node.tempProb) /100D;
+                if(node.out1 != null) setTempProbabilities(node.out1, node.variantProb);
+                if(node.out2 != null) setTempProbabilities(node.out2, node.variantProb);
+            }
         }
     }
 
@@ -208,9 +238,11 @@ class Calculations {
             node.visited = 0;
             int[] chain = chains.get(numb);
             node.value = chain[i];
+            if (node.variantProb == 100) node.value = 1;
         }
     }
 
+    /** Содержимое массива variants в консоль */
     private static void printVariants() {
         for(int i = 0; i < variants.size(); i++) {
             boolean[] array = variants.get(i);

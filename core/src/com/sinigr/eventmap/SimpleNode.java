@@ -7,7 +7,7 @@ public class SimpleNode {
     int visited = 0;
     SimpleNode in1, in2;
     SimpleNode out1, out2;
-    double baseProb, tempProb, resultProb;
+    double baseProb, tempProb, resultProb, variantProb;
     String type;
 
     public SimpleNode(Node node) {

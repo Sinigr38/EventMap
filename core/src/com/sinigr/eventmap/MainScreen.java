@@ -153,11 +153,13 @@ public class MainScreen extends ApplicationAdapter {
 		}
 	}
 
+	/** Проверка видимости узла */
 	private boolean checkVisible(Node node) {
 		if (node instanceof Event) return node.getParent().isVisible();
 		else return node.isVisible();
 	}
 
+	/** Получить соединительную лнию для отрисовки */
 	private Line getLine(Node n1, Node n2) {
 		float x1,x2,y1,y2;
 		if(n1.type.equals("event")) {
