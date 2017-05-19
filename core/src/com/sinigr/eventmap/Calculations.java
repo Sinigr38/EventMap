@@ -130,10 +130,6 @@ class Calculations {
                 String type = node.type;
                 array[order] = numbs[k];
                 if(type.equals("event")) {
-                    if(node.baseProb == 100) {
-                         if(node.in1 != null && node.in1.type.equals("or")) array[order] = 1;
-                         if(node.in2 != null && node.in2.type.equals("or")) array[order] = 1;
-                    }
                     if(node.resultProb == 100) array[order] = 1;
                 }
                 buildChains(array, order+1);
@@ -149,10 +145,6 @@ class Calculations {
     private static int getIndex(SimpleNode node) {
         if(node.type.equals("event")) {
             if(node.resultProb == 100 || node.resultProb == 0) return 1;
-            if(node.baseProb == 100) {
-                if(node.in1 != null && node.in1.type.equals("or")) return 1;
-                if(node.in2 != null && node.in2.type.equals("or")) return 1;
-            }
             return 2;
         } else if(node.type.equals("or")) {
             if(getInCount(node) == 1) return 3;

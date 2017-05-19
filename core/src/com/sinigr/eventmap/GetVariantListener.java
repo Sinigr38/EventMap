@@ -17,7 +17,8 @@ class GetVariantListener extends ClickListener {
         boolean[] array = variants.get(Integer.parseInt(label.getText().toString())-1);
         for(int i = 0; i < main.nodes.size(); i++) {
             Node node = main.nodes.get(i);
-            node.setVisible(array[i]);
+            if (node instanceof Event) node.getParent().setVisible(array[i]);
+            else node.setVisible(array[i]);
         }
     }
 }

@@ -142,15 +142,20 @@ public class MainScreen extends ApplicationAdapter {
 		Line line;
 		shapeRenderer.setColor(Color.RED);
 		for(Node node: nodes) {
-			if(node.out1 != null) {
+			if(node.out1 != null && checkVisible(node.out1)) {
 				line = getLine(node, node.out1);
 				shapeRenderer.rectLine(line.x1 + deltaX, line.y1 + deltaY,line.x2 + deltaX,line.y2 + deltaY, 3);
 			}
-			if(node.out2 != null) {
+			if(node.out2 != null && checkVisible(node.out2)) {
 				line = getLine(node, node.out2);
 				shapeRenderer.rectLine(line.x1 + deltaX, line.y1 + deltaY,line.x2 + deltaX,line.y2 + deltaY, 3);
 			}
 		}
+	}
+
+	private boolean checkVisible(Node node) {
+		if (node instanceof Event) return node.getParent().isVisible();
+		else return node.isVisible();
 	}
 
 	private Line getLine(Node n1, Node n2) {
