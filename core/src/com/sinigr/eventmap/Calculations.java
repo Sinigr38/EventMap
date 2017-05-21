@@ -82,10 +82,9 @@ class Calculations {
             if(node.visited == 1) node.tempProb = probability;
              else {
                 calculatedCount ++ ;
-                if(node.type.equals("event")) node.resultProb = (100-(100-node.tempProb)*(100 - probability)/100D) * node.baseProb/100D;
+                if(node.type.equals("event")) node.resultProb = probability * node.tempProb/100D;
                 else if(node.type.equals("or")) node.resultProb = (100-(100-node.tempProb)*(100 - probability)/100D);
                 else if(node.type.equals("xor")) node.resultProb = node.tempProb*(100-probability) /100D + probability*(100-node.tempProb) /100D;
-                else if(node.type.equals("and")) node.resultProb = probability * node.tempProb/100D;
                 if(calculatedCount == nodes.size()) setProbabilities();
                 if(node.out1 != null) caclNodeProbability(node.out1, node.resultProb);
                 if(node.out2 != null) caclNodeProbability(node.out2, node.resultProb);
@@ -171,7 +170,7 @@ class Calculations {
         node.visited++;
         int ins = getInCount(node);
         if((ins == 0 || ins == 1) ) {
-            if(node.type.equals("event")|| node.type.equals("and") ) {
+            if(node.type.equals("event")) {
                 node.variantProb = node.baseProb * probability / 100D;
                 if(node.out1 != null) setTempProbabilities(node.out1, node.variantProb);
                 if(node.out2 != null) setTempProbabilities(node.out2, node.variantProb);
@@ -194,6 +193,7 @@ class Calculations {
         }
     }
 
+    /** Печать в консоль содержимого массива Variant */
     private static boolean[] getVariantArray() {
         boolean[] array = new boolean[nodes.size()];
         for(int i =0; i < nodes.size(); i++) {
@@ -208,7 +208,7 @@ class Calculations {
         node.visited++;
         int ins = getInCount(node);
         if((ins == 0 || ins == 1) ) {
-            if(node.type.equals("event") || node.type.equals("and")) {
+            if(node.type.equals("event")) {
                 node.visible = node.value == 1 && visible;
                 if(node.out1 != null) buildVariant(node.out1, node.visible);
                 if(node.out2 != null) buildVariant(node.out2, node.visible);

@@ -20,9 +20,10 @@ public class TextureHelper {
 	private static TextureHelper textureHelper;
 
 	public TextureAtlas atlas;
-	TextureRegion event, xor, or, and;
-	TextureRegion event_s, xor_s, or_s, and_s;
-	Texture btnback;
+	TextureRegion event, xor, or;
+	TextureRegion event_s, xor_s, or_s;
+	TextureRegion connections, connections_s;
+	TextureRegion btnback;
 
 	TextField.TextFieldStyle textStyle;
 	Label.LabelStyle labelStyle;
@@ -30,20 +31,18 @@ public class TextureHelper {
 	public static void initInstance() { textureHelper = new TextureHelper();}
 	public static TextureHelper getInstance() { return textureHelper;}
 
-	/**
-	 * Загрузка текстур из файлов 
-	 */
+	/** Загрузка текстур из файлов */
 	public void initTextures() {
 		atlas = new TextureAtlas(Gdx.files.internal("texture.atlas"));
 		event =  new TextureRegion(atlas.findRegion("event"));
 		xor = new TextureRegion(atlas.findRegion("xor"));
 		or = new TextureRegion(atlas.findRegion("or"));
-		and = new TextureRegion(atlas.findRegion("and"));
 		event_s =  new TextureRegion(atlas.findRegion("event_s"));
 		xor_s = new TextureRegion(atlas.findRegion("xor_s"));
 		or_s = new TextureRegion(atlas.findRegion("or_s"));
-		and_s = new TextureRegion(atlas.findRegion("and_s"));
-		btnback = new Texture(Gdx.files.internal("btnback.png"));
+		btnback = new TextureRegion(atlas.findRegion("btnback"));
+		connections = new TextureRegion(atlas.findRegion("edit"));
+		connections_s = new TextureRegion(atlas.findRegion("edit_s"));
 		generateTextStyle();
 	}
 

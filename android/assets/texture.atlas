@@ -4,67 +4,74 @@ size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-and
-  rotate: false
-  xy: 344, 104
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
-and_s
-  rotate: false
-  xy: 446, 104
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
-  index: -1
 back
   rotate: false
-  xy: 204, 66
+  xy: 204, 104
   size: 138, 138
   split: 20, 20, 20, 0
   pad: 0, 0, 0, 20
   orig: 138, 138
   offset: 0, 0
   index: -1
+btnback
+  rotate: false
+  xy: 344, 122
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+edit
+  rotate: false
+  xy: 466, 122
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+edit_s
+  rotate: false
+  xy: 588, 122
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
 event
   rotate: false
-  xy: 2, 104
+  xy: 2, 142
   size: 200, 100
   orig: 200, 100
   offset: 0, 0
   index: -1
 event_s
   rotate: false
-  xy: 2, 2
+  xy: 2, 40
   size: 200, 100
   orig: 200, 100
   offset: 0, 0
   index: -1
 or
   rotate: false
-  xy: 548, 104
+  xy: 710, 142
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 or_s
   rotate: false
-  xy: 650, 104
+  xy: 812, 142
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 xor
   rotate: false
-  xy: 752, 104
+  xy: 914, 142
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 xor_s
   rotate: false
-  xy: 854, 104
+  xy: 204, 2
   size: 100, 100
   orig: 100, 100
   offset: 0, 0

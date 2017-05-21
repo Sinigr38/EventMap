@@ -34,6 +34,7 @@ public class MainScreen extends ApplicationAdapter {
 	Node draggingActor;
 	Node selectedNode;
 	Label selectedLabel;
+	CustomActor editButton;
 	CustomStage stage;
 	private TextField name, probability;
 	private TextArea description;
@@ -85,6 +86,7 @@ public class MainScreen extends ApplicationAdapter {
 		shapeRenderer = new ShapeRenderer();
    		Gdx.input.setInputProcessor(stage);
    		loadUI();
+
 	}
 
 	private void getGraphicsParams() {
@@ -103,14 +105,18 @@ public class MainScreen extends ApplicationAdapter {
 		tableUI.setZIndex(1);
 	}
 
-	/** Получить кнопку "Старт" */
+	/** Кнопки старт и редактирование */
 	private Table getUpperTable() {
 		upTable = new Table();
+		editButton = new CustomActor(textures.connections);
+		editButton.addListener(new CustomClickListener(CustomClickListener.Types.CONNECTIONS));
+		upTable.add(editButton).padRight(10);
+
 		CustomActor actor = new CustomActor(textures.btnback);
 		Label label = new Label("Start", TextureHelper.getInstance().labelStyle);
 		label.setAlignment(Align.center);
 		Stack stack = new Stack(actor, label);
-		stack.addListener(new StartListener());
+		stack.addListener(new CustomClickListener(CustomClickListener.Types.STARTCALC));
 		upTable.add(stack);
 		return upTable;
 	}
@@ -142,11 +148,11 @@ public class MainScreen extends ApplicationAdapter {
 		Line line;
 		shapeRenderer.setColor(Color.RED);
 		for(Node node: nodes) {
-			if(node.out1 != null && checkVisible(node.out1)) {
+			if(node.out1 != null && checkVisible(node.out1) && checkVisible(node)) {
 				line = getLine(node, node.out1);
 				shapeRenderer.rectLine(line.x1 + deltaX, line.y1 + deltaY,line.x2 + deltaX,line.y2 + deltaY, 3);
 			}
-			if(node.out2 != null && checkVisible(node.out2)) {
+			if(node.out2 != null && checkVisible(node.out2) && checkVisible(node)) {
 				line = getLine(node, node.out2);
 				shapeRenderer.rectLine(line.x1 + deltaX, line.y1 + deltaY,line.x2 + deltaX,line.y2 + deltaY, 3);
 			}
@@ -214,7 +220,6 @@ public class MainScreen extends ApplicationAdapter {
 		downTable.add(addActorToDragGroup(textures.event, "event")).padLeft(10);
 		downTable.add(addActorToDragGroup(textures.xor, "xor")).padLeft(10);
 		downTable.add(addActorToDragGroup(textures.or, "or")).padLeft(10);
-		downTable.add(addActorToDragGroup(textures.and, "and")).padLeft(10);
 		tableUI.add(downTable).bottom().left().fillX().expandY();
 	}
 
@@ -223,7 +228,7 @@ public class MainScreen extends ApplicationAdapter {
 		Node actor;
 		actor = new Node(tr);
 		actor.type = type;
-		actor.addListener(new DragClickListener());
+		actor.addListener(new CustomClickListener(CustomClickListener.Types.STARTDRAG));
 		return actor;
 	}
 
@@ -270,7 +275,6 @@ public class MainScreen extends ApplicationAdapter {
 		selectedNode = node;
 		if(node.type.equals("xor"))node.tr = TextureHelper.getInstance().xor_s;
 		else if (node.type.equals("or"))node.tr = TextureHelper.getInstance().or_s;
-		else if(node.type.equals("and"))node.tr = TextureHelper.getInstance().and_s;
 		else {
 			Event e = (Event)node;
 			node.tr = TextureHelper.getInstance().event_s;
@@ -286,7 +290,6 @@ public class MainScreen extends ApplicationAdapter {
 		if(node == null) return;
 		if(node.type.equals("xor"))node.tr = TextureHelper.getInstance().xor;
 		else if (node.type.equals("or"))node.tr = TextureHelper.getInstance().or;
-		else if(node.type.equals("and"))node.tr = TextureHelper.getInstance().and;
 		else {
 			node.tr = TextureHelper.getInstance().event;
 			hideTextFields();
@@ -326,7 +329,7 @@ public class MainScreen extends ApplicationAdapter {
 		Label label = new Label(String.valueOf(i), TextureHelper.getInstance().labelStyle);
 		label.setAlignment(Align.center);
 		Stack stack = new Stack(actor, label);
-		stack.addListener(new GetVariantListener());
+		stack.addListener(new CustomClickListener(CustomClickListener.Types.GETVARIANT));
 		return stack;
 	}
 }
