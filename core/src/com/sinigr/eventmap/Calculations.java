@@ -84,7 +84,7 @@ class Calculations {
                 calculatedCount ++ ;
                 if(node.type.equals("event")) node.resultProb = probability * node.tempProb/100D;
                 else if(node.type.equals("or")) node.resultProb = (100-(100-node.tempProb)*(100 - probability)/100D);
-                else if(node.type.equals("xor")) node.resultProb = node.tempProb*(100-probability) /100D + probability*(100-node.tempProb) /100D;
+                else if(node.type.equals("xor")) node.resultProb = node.tempProb + probability;
                 if(calculatedCount == nodes.size()) setProbabilities();
                 if(node.out1 != null) caclNodeProbability(node.out1, node.resultProb);
                 if(node.out2 != null) caclNodeProbability(node.out2, node.resultProb);

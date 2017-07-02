@@ -15,10 +15,6 @@ public class SimpleNode {
         if(node instanceof Event) {
             Event event = (Event)node;
             baseProb = event.probability;
-        } else {
-            if (type.equals("or")) baseProb = 2D/3D*100;
-            else if(type.equals("xor")) baseProb = 50;
-            else baseProb = 100;
-        }
+        } else baseProb = 100;
     }
 }
